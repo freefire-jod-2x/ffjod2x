@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Panel</title>
+    <style>
+        body {
+            background-color: #0b0b13;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* 🌀 ১ম স্ক্রিন: স্প্ল্যাশ স্ক্রিন */
+        #loader-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #0b0b13;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .circle-loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 255, 204, 0.1);
+            border-left-color: #00ffcc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+        .loader-text {
+            margin-top: 20px;
+            color: #00ffcc;
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ffcc;
+            animation: blink 1.5s infinite;
+        }
+
+        /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
+        .panel-box {
+            background: #121224;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
+            width: 280px;
+            display: none; /* প্রথমে হাইড */
+        }
+
+        /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড ভেরিফিকেশন বক্স (প্রথমে হাইড থাকবে) */
+        #login-box {
+            background: #121224;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ff007f;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
+            width: 280px;
+            display: none;
+        }
+        
+        h2 { margin-bottom: 5px; text-shadow: 0 0 10px; }
+        .cyan-text { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
+        .pink-text { color: #ff007f; text-shadow: 0 0 10px #ff007f; }
+
+        input {
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #1b1b3a;
+            color: white;
+            width: 85%;
+            text-align: center;
+            outline: none;
+            font-size: 16px;
+        }
+        button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 95%;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .btn-cyan { background: #00ffcc; color: #121224; box-shadow: 0 0 15px rgba(0, 255, 204, 0.3); }
+        .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.3); }
+
+        .progress-container {
+            width: 95%;
+            background-color: #1b1b3a;
+            border-radius: 10px;
+            margin: 15px auto 0 auto;
+            display: none;
+            border: 1px solid #333;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 8px;
+            background-color: #ff007f;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ff007f;
+            transition: width 0.1s linear;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="loader-container">
+        <div class="circle-loader"></div>
+        <div class="loader-text">LOADING FF JOD 2X...</div>
+    </div>
+
+    <div class="panel-box" id="mainPanel">
+        <h2 class="cyan-text">FF JOD 2X</h2>
+        <p id="statusText" style="color: #888;">Status: System Ready</p>
+        <input type="text" id="userName" placeholder="Enter Your Name">
+        <br>
+        <button id="startBtn" class="btn-cyan">START FF JOD 2X</button>
+
+        <div class="progress-container" id="progressBarContainer">
+            <div class="progress-bar" id="myBar"></div>
+        </div>
+    </div>
+
+    <div id="login-box">
+        <h2 class="pink-text">SECURITY LOCK</h2>
+        <p id="loginStatus" style="color: #888;">Enter Password To Generate Key</p>
+        <input type="password" id="panelPassword" placeholder="Password Here">
+        <br>
+        <button id="loginBtn" class="btn-pink">VERIFY & GENERATE</button>
+    </div>
+
+    <script>
+        const loaderContainer = document.getElementById('loader-container');
+        const mainPanel = document.getElementById('mainPanel');
+        const loginBox = document.getElementById('login-box');
+        
+        const button = document.getElementById('startBtn');
+        const input = document.getElementById('userName');
+        const statusText = document.getElementById('statusText');
+        const progressBarContainer = document.getElementById('progressBarContainer');
+        const myBar = document.getElementById('myBar');
+
+        const loginBtn = document.getElementById('loginBtn');
+        const panelPassword = document.getElementById('panelPassword');
+        const loginStatus = document.getElementById('loginStatus');
+
+        let savedName = ""; // ইউজারের নাম সেভ রাখার জন্য
+
+        const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
+        bgMusic.loop = true;
+
+        // ৩ সেকেন্ড পর মেইন প্যানেল (নামের বক্স) আসবে
+        setTimeout(() => {
+            loaderContainer.style.opacity = '0';
+            setTimeout(() => {
+                loaderContainer.style.display = 'none';
+                mainPanel.style.display = 'block';
+            }, 500);
+        }, 3000);
+
+        // ⚡ নাম লিখে স্টার্ট দিলে যা হবে
+        button.addEventListener('click', function() {
+            savedName = input.value.trim(); 
+            
+            if(savedName === "") {
+                alert("দয়া করে আগে আপনার নাম লিখুন বস!");
+            } else {
+                bgMusic.play();
+                statusText.innerText = "Welcome, " + savedName + "! Initializing...";
+                statusText.style.color = "#00ffcc"; 
+                
+                button.innerText = "LOADING SECURE GATEWAY...";
+                button.style.background = "#333";
+                button.style.color = "#777";
+                button.disabled = true; 
+
+                progressBarContainer.style.display = "block";
+                
+                let width = 0;
+                let id = setInterval(frame, 20); 
+                
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        
+                        // ১০০% লোড হওয়ার পর পাসওয়ার্ড স্ক্রিন ওপেন হবে
+                        setTimeout(() => {
+                            mainPanel.style.display = 'none';
+                            loginBox.style.display = 'block';
+                        }, 800);
+
+                    } else {
+                        width++;
+                        myBar.style.width = width + '%';
+                        statusText.innerText = "Bypassing... " + width + "%";
+                    }
+                }
+            }
+        });
+
+        // 🔐 পাসওয়ার্ড ভেরিফাই করে কী দেখানোর লজিক
+        loginBtn.addEventListener('click', function() {
+            const pass = panelPassword.value.trim();
+            
+            if(pass === "JOD2X") {
+                loginStatus.innerText = "ACCESS GRANTED! GENERATING...";
+                loginStatus.style.color = "#00ffcc";
+                loginBtn.disabled = true;
+                
+                setTimeout(() => {
+                    // পাসওয়ার্ড বক্স লুকিয়ে আবার মেইন বক্সে ব্যাক করবে কী সহকারে
+                    loginBox.style.display = 'none';
+                    mainPanel.style.display = 'block';
+                    
+                    // ইউনিক কী জেনারেশন
+                    let randomChar = Math.random().toString(36).substring(2, 6).toUpperCase();
+                    let randomNum = Math.random().toString(36).substring(7, 11).toUpperCase();
+                    let finalKey = "JOD-" + randomChar + "-" + randomNum;
+                    
+                    statusText.innerText = "SUCCESS! KEY GENERATED FOR " + savedName.toUpperCase();
+                    statusText.style.color = "#00ffcc";
+                    
+                    input.value = finalKey; // বক্সে কী শো করবে
+                    
+                    button.innerText = "KEY GENERATED SUCCESSFULLY";
+                    button.style.background = "#ff007f";
+                    button.style.color = "white";
+                }, 1500);
+
+            } else {
+                loginStatus.innerText = "WRONG PASSWORD! ACCESS DENIED";
+                loginStatus.style.color = "red";
+                panelPassword.value = "";
+            }
+        });
+    </script>
+
+</body>
+</html>
