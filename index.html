@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Panel</title>
+    <title>FF JOD 2X PANEL</title>
     <style>
         body {
             background-color: #0b0b13;
@@ -19,7 +19,7 @@
             box-sizing: border-box;
         }
 
-        /* 🌀 ১ম স্ক্রিন: স্প্ল্যাশ স্ক্রিন */
+        /* 🌀 ১ম স্ক্রিন: ফ্রি ফায়ার স্টাইল প্রিমিয়াম প্রোগ্রেস লোডার */
         #loader-container {
             position: fixed;
             top: 0;
@@ -34,23 +34,33 @@
             z-index: 9999;
             transition: opacity 0.5s ease;
         }
-        .circle-loader {
-            width: 70px;
-            height: 70px;
-            border: 5px solid rgba(0, 255, 204, 0.1);
-            border-left-color: #00ffcc;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+        
+        .ff-loader-box {
+            width: 80%;
+            max-width: 300px;
+            background: #1b1b3a;
+            border: 2px solid #ffcc00;
+            padding: 4px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
         }
+
+        .ff-loader-bar {
+            width: 0%;
+            height: 14px;
+            background: linear-gradient(90deg, #ff0055, #ffcc00);
+            border-radius: 20px;
+            box-shadow: 0 0 10px #ff0055;
+            animation: startLoading 3.5s linear forwards;
+        }
+
         .loader-text {
-            margin-top: 25px;
-            color: #00ffcc;
-            font-size: 20px;
+            margin-top: 20px;
+            color: #ffcc00;
+            font-size: 18px;
             letter-spacing: 2px;
             font-weight: bold;
-            text-shadow: 0 0 10px #00ffcc;
-            animation: blink 1.5s infinite;
+            text-shadow: 0 0 10px #ffcc00;
         }
 
         /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
@@ -113,10 +123,6 @@
             border-color: #00ffcc;
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
         }
-        #panelPassword:focus {
-            border-color: #ff007f;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
-        }
 
         button {
             border: none;
@@ -135,6 +141,9 @@
         .btn-cyan { background: #00ffcc; color: #121224; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); }
         .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
 
+        /* কী কপি করার ওপি বাটন */
+        .btn-copy { background: #ffcc00; color: black; box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); display: none; }
+
         .progress-container {
             width: 100%;
             background-color: #1b1b3a;
@@ -152,15 +161,19 @@
             transition: width 0.1s linear;
         }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        @keyframes startLoading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
     </style>
 </head>
 <body>
 
     <div id="loader-container">
-        <div class="circle-loader"></div>
-        <div class="loader-text">LOADING FF JOD 2X...</div>
+        <div class="ff-loader-box">
+            <div class="ff-loader-bar"></div>
+        </div>
+        <div class="loader-text">LOADING SYSTEM...</div>
     </div>
 
     <div class="panel-box" id="mainPanel">
@@ -169,6 +182,7 @@
         <input type="text" id="userName" placeholder="Enter Your Name">
         <br>
         <button id="startBtn" class="btn-cyan">START FF JOD 2X</button>
+        <button id="copyBtn" class="btn-copy">COPY GENERATED KEY</button>
 
         <div class="progress-container" id="progressBarContainer">
             <div class="progress-bar" id="myBar"></div>
@@ -189,6 +203,7 @@
         const loginBox = document.getElementById('login-box');
         
         const button = document.getElementById('startBtn');
+        const copyBtn = document.getElementById('copyBtn');
         const input = document.getElementById('userName');
         const statusText = document.getElementById('statusText');
         const progressBarContainer = document.getElementById('progressBarContainer');
@@ -203,13 +218,14 @@
         const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
         bgMusic.loop = true;
 
+        // লোডিং বার শেষ হলে মেইন স্ক্রিন আসবে
         setTimeout(() => {
             loaderContainer.style.opacity = '0';
             setTimeout(() => {
                 loaderContainer.style.display = 'none';
                 mainPanel.style.display = 'block';
             }, 500);
-        }, 3000);
+        }, 3600);
 
         button.addEventListener('click', function() {
             savedName = input.value.trim(); 
@@ -270,9 +286,8 @@
                     
                     input.value = finalKey; 
                     
-                    button.innerText = "KEY GENERATED SUCCESSFULLY";
-                    button.style.background = "#ff007f";
-                    button.style.color = "white";
+                    button.style.display = "none"; // স্টার্ট বাটন হাইড হবে
+                    copyBtn.style.display = "block"; // কপি বাটন শো করবে
                 }, 1500);
 
             } else {
@@ -280,6 +295,14 @@
                 loginStatus.style.color = "red";
                 panelPassword.value = "";
             }
+        });
+
+        // কী কপি করার লজিক
+        copyBtn.addEventListener('click', function() {
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            alert("বস! কীটি সফলভাবে কপি করা হয়েছে: " + input.value);
         });
     </script>
 
