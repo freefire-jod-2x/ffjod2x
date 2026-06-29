@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My First Panel</title>
     <style>
         body {
@@ -13,11 +15,15 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
         /* 🌀 ১ম স্ক্রিন: স্প্ল্যাশ স্ক্রিন */
         #loader-container {
             position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-color: #0b0b13;
@@ -29,18 +35,18 @@
             transition: opacity 0.5s ease;
         }
         .circle-loader {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(0, 255, 204, 0.1);
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(0, 255, 204, 0.1);
             border-left-color: #00ffcc;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
         }
         .loader-text {
-            margin-top: 20px;
+            margin-top: 25px;
             color: #00ffcc;
-            font-size: 18px;
+            font-size: 20px;
             letter-spacing: 2px;
             font-weight: bold;
             text-shadow: 0 0 10px #00ffcc;
@@ -50,67 +56,96 @@
         /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
         .panel-box {
             background: #121224;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 35px 25px;
+            border-radius: 20px;
             text-align: center;
             border: 2px solid #00ffcc;
-            box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
-            width: 280px;
-            display: none; /* প্রথমে হাইড */
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
+            display: none;
         }
 
-        /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড ভেরিফিকেশন বক্স (প্রথমে হাইড থাকবে) */
+        /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড ভেরিফিকেশন বক্স */
         #login-box {
             background: #121224;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 35px 25px;
+            border-radius: 20px;
             text-align: center;
             border: 2px solid #ff007f;
-            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4);
-            width: 280px;
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
             display: none;
         }
         
-        h2 { margin-bottom: 5px; text-shadow: 0 0 10px; }
+        h2 { 
+            margin-top: 0;
+            margin-bottom: 10px; 
+            font-size: 28px;
+            text-shadow: 0 0 10px; 
+        }
         .cyan-text { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
         .pink-text { color: #ff007f; text-shadow: 0 0 10px #ff007f; }
 
+        p {
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
         input {
-            padding: 12px;
+            padding: 15px;
             margin: 15px 0;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #333;
             background: #1b1b3a;
             color: white;
-            width: 85%;
+            width: 100%;
+            box-sizing: border-box;
             text-align: center;
             outline: none;
-            font-size: 16px;
-        }
-        button {
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 95%;
-            font-size: 15px;
+            font-size: 18px;
             transition: 0.3s;
         }
-        .btn-cyan { background: #00ffcc; color: #121224; box-shadow: 0 0 15px rgba(0, 255, 204, 0.3); }
-        .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.3); }
+        input:focus {
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+        #panelPassword:focus {
+            border-color: #ff007f;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+        }
+
+        button {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 16px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .btn-cyan { background: #00ffcc; color: #121224; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); }
+        .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
 
         .progress-container {
-            width: 95%;
+            width: 100%;
             background-color: #1b1b3a;
             border-radius: 10px;
-            margin: 15px auto 0 auto;
+            margin: 20px auto 0 auto;
             display: none;
             border: 1px solid #333;
         }
         .progress-bar {
             width: 0%;
-            height: 8px;
+            height: 10px;
             background-color: #ff007f;
             border-radius: 10px;
             box-shadow: 0 0 10px #ff007f;
@@ -130,7 +165,7 @@
 
     <div class="panel-box" id="mainPanel">
         <h2 class="cyan-text">FF JOD 2X</h2>
-        <p id="statusText" style="color: #888;">Status: System Ready</p>
+        <p id="statusText" style="color: #aaa;">Status: System Ready</p>
         <input type="text" id="userName" placeholder="Enter Your Name">
         <br>
         <button id="startBtn" class="btn-cyan">START FF JOD 2X</button>
@@ -142,7 +177,7 @@
 
     <div id="login-box">
         <h2 class="pink-text">SECURITY LOCK</h2>
-        <p id="loginStatus" style="color: #888;">Enter Password To Generate Key</p>
+        <p id="loginStatus" style="color: #aaa;">Enter Password To Generate Key</p>
         <input type="password" id="panelPassword" placeholder="Password Here">
         <br>
         <button id="loginBtn" class="btn-pink">VERIFY & GENERATE</button>
@@ -163,12 +198,11 @@
         const panelPassword = document.getElementById('panelPassword');
         const loginStatus = document.getElementById('loginStatus');
 
-        let savedName = ""; // ইউজারের নাম সেভ রাখার জন্য
+        let savedName = ""; 
 
         const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
         bgMusic.loop = true;
 
-        // ৩ সেকেন্ড পর মেইন প্যানেল (নামের বক্স) আসবে
         setTimeout(() => {
             loaderContainer.style.opacity = '0';
             setTimeout(() => {
@@ -177,14 +211,13 @@
             }, 500);
         }, 3000);
 
-        // ⚡ নাম লিখে স্টার্ট দিলে যা হবে
         button.addEventListener('click', function() {
             savedName = input.value.trim(); 
             
             if(savedName === "") {
                 alert("দয়া করে আগে আপনার নাম লিখুন বস!");
             } else {
-                bgMusic.play();
+                bgMusic.play().catch(e => console.log("Audio play blocked"));
                 statusText.innerText = "Welcome, " + savedName + "! Initializing...";
                 statusText.style.color = "#00ffcc"; 
                 
@@ -202,7 +235,6 @@
                     if (width >= 100) {
                         clearInterval(id);
                         
-                        // ১০০% লোড হওয়ার পর পাসওয়ার্ড স্ক্রিন ওপেন হবে
                         setTimeout(() => {
                             mainPanel.style.display = 'none';
                             loginBox.style.display = 'block';
@@ -217,7 +249,6 @@
             }
         });
 
-        // 🔐 পাসওয়ার্ড ভেরিফাই করে কী দেখানোর লজিক
         loginBtn.addEventListener('click', function() {
             const pass = panelPassword.value.trim();
             
@@ -227,11 +258,9 @@
                 loginBtn.disabled = true;
                 
                 setTimeout(() => {
-                    // পাসওয়ার্ড বক্স লুকিয়ে আবার মেইন বক্সে ব্যাক করবে কী সহকারে
                     loginBox.style.display = 'none';
                     mainPanel.style.display = 'block';
                     
-                    // ইউনিক কী জেনারেশন
                     let randomChar = Math.random().toString(36).substring(2, 6).toUpperCase();
                     let randomNum = Math.random().toString(36).substring(7, 11).toUpperCase();
                     let finalKey = "JOD-" + randomChar + "-" + randomNum;
@@ -239,7 +268,7 @@
                     statusText.innerText = "SUCCESS! KEY GENERATED FOR " + savedName.toUpperCase();
                     statusText.style.color = "#00ffcc";
                     
-                    input.value = finalKey; // বক্সে কী শো করবে
+                    input.value = finalKey; 
                     
                     button.innerText = "KEY GENERATED SUCCESSFULLY";
                     button.style.background = "#ff007f";
