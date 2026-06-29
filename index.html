@@ -19,7 +19,7 @@
             box-sizing: border-box;
         }
 
-        /* 🌀 ১ম স্ক্রিন: আপনার সেই অরিজিনাল গোল স্পিনার লোডার */
+        /* 🌀 ১ম স্ক্রিন: গোল স্পিনার লোডার */
         #loader-container {
             position: fixed;
             top: 0;
@@ -49,7 +49,7 @@
             margin-top: 20px;
             color: #00ffcc;
             font-size: 16px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: bold;
             text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
         }
@@ -131,8 +131,6 @@
         }
         .btn-cyan { background: #00ffcc; color: #121224; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); }
         .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
-        
-        /* আপনার নতুন ওপি কপি বাটন */
         .btn-copy { background: #ffcc00; color: black; box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); display: none; }
 
         .progress-container {
@@ -162,15 +160,15 @@
 
     <div id="loader-container">
         <div class="circle-loader"></div>
-        <div class="loader-text">LOADING FF JOD 2X...</div>
+        <div class="loader-text">LOADING...</div>
     </div>
 
     <div class="panel-box" id="mainPanel">
         <h2 class="cyan-text">FF JOD 2X</h2>
-        <p id="statusText" style="color: #aaa;">Status: System Ready</p>
+        <p id="statusText" style="color: #aaa;">Status: Secure Connection Established</p>
         <input type="text" id="userName" placeholder="Enter Your Name">
         <br>
-        <button id="startBtn" class="btn-cyan">START FF JOD 2X</button>
+        <button id="startBtn" class="btn-cyan">START INJECTION</button>
         <button id="copyBtn" class="btn-copy">COPY GENERATED KEY</button>
 
         <div class="progress-container" id="progressBarContainer">
@@ -180,13 +178,13 @@
 
     <div id="login-box">
         <h2 class="pink-text">SECURITY LOCK</h2>
-        <p id="loginStatus" style="color: #aaa;">Enter Password To Generate Key</p>
+        <p id="loginStatus" style="color: #aaa;">Enter Password To Decrypt Key</p>
         <input type="password" id="panelPassword" placeholder="Password Here">
         <br>
         <button id="loginBtn" class="btn-pink">VERIFY & GENERATE</button>
     </div>
 
-    <script>
+    <script {nonce}>
         const loaderContainer = document.getElementById('loader-container');
         const mainPanel = document.getElementById('mainPanel');
         const loginBox = document.getElementById('login-box');
@@ -207,14 +205,14 @@
         const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
         bgMusic.loop = true;
 
-        // লোডিং স্ক্রিন ৩ সেকেন্ড থাকবে, তারপর মেইন প্যানেল আসবে
+        // লোডিং স্ক্রিন ৩.৫ সেকেন্ড ফিক্সড থাকবে, তারপর প্যানেল আসবে
         setTimeout(() => {
             loaderContainer.style.opacity = '0';
             setTimeout(() => {
                 loaderContainer.style.display = 'none';
                 mainPanel.style.display = 'block';
             }, 500);
-        }, 3000);
+        }, 3500);
 
         button.addEventListener('click', function() {
             savedName = input.value.trim(); 
@@ -223,12 +221,12 @@
                 alert("দয়া করে আগে আপনার নাম লিখুন বস!");
             } else {
                 bgMusic.play().catch(e => console.log("Audio play blocked"));
-                statusText.innerText = "Welcome, " + savedName + "! Initializing...";
+                statusText.innerText = "Welcome, " + savedName + " ! Overriding Matrix...";
                 statusText.style.color = "#00ffcc"; 
                 
-                button.innerText = "LOADING SECURE GATEWAY...";
-                button.style.background = "#333";
-                button.style.color = "#777";
+                button.innerText = "OPENING SECURE GATEWAY...";
+                button.style.background = "#222";
+                button.style.color = "#555";
                 button.disabled = true; 
 
                 progressBarContainer.style.display = "block";
@@ -258,7 +256,7 @@
             const pass = panelPassword.value.trim();
             
             if(pass === "JOD2X") {
-                loginStatus.innerText = "ACCESS GRANTED! GENERATING...";
+                loginStatus.innerText = "ACCESS GRANTED! DECRYPTING KEY...";
                 loginStatus.style.color = "#00ffcc";
                 loginBtn.disabled = true;
                 
@@ -275,7 +273,7 @@
                     
                     input.value = finalKey; 
                     
-                    button.style.display = "none"; 
+                    button.style.display = "none";
                     copyBtn.style.display = "block"; 
                 }, 1500);
 
@@ -291,7 +289,7 @@
             input.select();
             input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
-            alert("বস! কীটি সফলভাবে কপি করা হয়েছে: " + input.value);
+            alert("বস! কীটি কপি করা হয়েছে: " + input.value);
         });
     </script>
 
