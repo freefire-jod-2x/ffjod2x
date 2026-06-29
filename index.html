@@ -6,9 +6,9 @@
     <title>FF JOD 2X PANEL</title>
     <style>
         body {
-            background-color: #0b0b13;
+            background-color: #05050a;
             color: white;
-            font-family: sans-serif;
+            font-family: 'Courier New', Courier, monospace; /* হ্যাকার ফন্ট */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,58 +19,67 @@
             box-sizing: border-box;
         }
 
-        /* 🌀 ১ম স্ক্রিন: ফ্রি ফায়ার স্টাইল প্রিমিয়াম প্রোগ্রেস লোডার */
+        /* 🏴‍☠️ ১ম স্ক্রিন: হ্যাকার গ্লিচ ও শেক লোডার */
         #loader-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0b0b13;
+            background-color: #05050a;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease;
+            /* স্ক্রিন কাঁপানোর জন্য শেক অ্যানিমেশন */
+            animation: hackerShake 0.4s infinite alternate;
         }
         
-        .ff-loader-box {
-            width: 80%;
-            max-width: 300px;
-            background: #1b1b3a;
-            border: 2px solid #ffcc00;
-            padding: 4px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+        /* ওপি সায়ান স্পিনার */
+        .circle-loader {
+            width: 75px;
+            height: 75px;
+            border: 5px solid rgba(0, 255, 204, 0.05);
+            border-left-color: #00ffcc;
+            border-right-color: #ff0055; /* হ্যাকার ডুয়াল কালার ইফেক্ট */
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.5), 0 0 15px rgba(255, 0, 85, 0.3);
+            position: relative;
         }
 
-        .ff-loader-bar {
-            width: 0%;
-            height: 14px;
-            background: linear-gradient(90deg, #ff0055, #ffcc00);
-            border-radius: 20px;
-            box-shadow: 0 0 10px #ff0055;
-            animation: startLoading 3.5s linear forwards;
+        /* গ্লিচ ইফেক্টের ছায়া */
+        .circle-loader::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top-color: #00ffcc;
+            opacity: 0.6;
+            animation: spin 1.5s linear infinite reverse;
         }
 
         .loader-text {
-            margin-top: 20px;
-            color: #ffcc00;
+            margin-top: 30px;
+            color: #00ffcc;
             font-size: 18px;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             font-weight: bold;
-            text-shadow: 0 0 10px #ffcc00;
+            text-shadow: 0 0 10px #00ffcc, 2px 2px #ff0055; /* রেড-গ্রিন গ্লিচ শ্যাডো */
+            animation: textBlink 0.15s infinite alternate;
         }
 
         /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
         .panel-box {
-            background: #121224;
+            background: #0d0d1a;
             padding: 35px 25px;
             border-radius: 20px;
             text-align: center;
             border: 2px solid #00ffcc;
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
             width: 100%;
             max-width: 360px;
             box-sizing: border-box;
@@ -79,12 +88,12 @@
 
         /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড ভেরিফিকেশন বক্স */
         #login-box {
-            background: #121224;
+            background: #0d0d1a;
             padding: 35px 25px;
             border-radius: 20px;
             text-align: center;
             border: 2px solid #ff007f;
-            box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
             width: 100%;
             max-width: 360px;
             box-sizing: border-box;
@@ -109,14 +118,15 @@
             padding: 15px;
             margin: 15px 0;
             border-radius: 10px;
-            border: 1px solid #333;
-            background: #1b1b3a;
+            border: 1px solid #222;
+            background: #14142a;
             color: white;
             width: 100%;
             box-sizing: border-box;
             text-align: center;
             outline: none;
             font-size: 18px;
+            font-family: monospace;
             transition: 0.3s;
         }
         input:focus {
@@ -134,23 +144,22 @@
             font-size: 16px;
             transition: 0.3s;
             margin-top: 10px;
+            font-family: monospace;
         }
         button:active {
             transform: scale(0.98);
         }
         .btn-cyan { background: #00ffcc; color: #121224; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); }
         .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
-
-        /* কী কপি করার ওপি বাটন */
         .btn-copy { background: #ffcc00; color: black; box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); display: none; }
 
         .progress-container {
             width: 100%;
-            background-color: #1b1b3a;
+            background-color: #14142a;
             border-radius: 10px;
             margin: 20px auto 0 auto;
             display: none;
-            border: 1px solid #333;
+            border: 1px solid #222;
         }
         .progress-bar {
             width: 0%;
@@ -161,27 +170,40 @@
             transition: width 0.1s linear;
         }
 
-        @keyframes startLoading {
-            0% { width: 0%; }
-            100% { width: 100%; }
+        /* 🎬 অ্যানিমেশন ইফেক্টস */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* গ্লিচ টেক্সট ব্লিংক */
+        @keyframes textBlink {
+            0% { opacity: 0.9; transform: skewX(-2deg); }
+            50% { opacity: 1; transform: skewX(2deg); }
+            100% { opacity: 0.8; transform: skewX(0deg); }
+        }
+
+        /* হ্যাকার কাঁপানো (Shake) ইফেক্ট */
+        @keyframes hackerShake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            20% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+            40% { transform: translate(-2px, 0px) rotate(0.5deg); }
+            60% { transform: translate(1px, 2px) rotate(0deg); }
+            80% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+            100% { transform: translate(2px, -1px) rotate(0.5deg); }
         }
     </style>
 </head>
 <body>
 
     <div id="loader-container">
-        <div class="ff-loader-box">
-            <div class="ff-loader-bar"></div>
-        </div>
-        <div class="loader-text">LOADING SYSTEM...</div>
+        <div class="circle-loader"></div>
+        <div class="loader-text" id="loadingText">BYPASSING FIREWALL...</div>
     </div>
 
     <div class="panel-box" id="mainPanel">
         <h2 class="cyan-text">FF JOD 2X</h2>
-        <p id="statusText" style="color: #aaa;">Status: System Ready</p>
+        <p id="statusText" style="color: #aaa;">Status: Secure Connection Established</p>
         <input type="text" id="userName" placeholder="Enter Your Name">
         <br>
-        <button id="startBtn" class="btn-cyan">START FF JOD 2X</button>
+        <button id="startBtn" class="btn-cyan">START INJECTION</button>
         <button id="copyBtn" class="btn-copy">COPY GENERATED KEY</button>
 
         <div class="progress-container" id="progressBarContainer">
@@ -191,7 +213,7 @@
 
     <div id="login-box">
         <h2 class="pink-text">SECURITY LOCK</h2>
-        <p id="loginStatus" style="color: #aaa;">Enter Password To Generate Key</p>
+        <p id="loginStatus" style="color: #aaa;">Enter Password To Decrypt Key</p>
         <input type="password" id="panelPassword" placeholder="Password Here">
         <br>
         <button id="loginBtn" class="btn-pink">VERIFY & GENERATE</button>
@@ -201,6 +223,7 @@
         const loaderContainer = document.getElementById('loader-container');
         const mainPanel = document.getElementById('mainPanel');
         const loginBox = document.getElementById('login-box');
+        const loadingText = document.getElementById('loadingText');
         
         const button = document.getElementById('startBtn');
         const copyBtn = document.getElementById('copyBtn');
@@ -218,8 +241,19 @@
         const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
         bgMusic.loop = true;
 
-        // লোডিং বার শেষ হলে মেইন স্ক্রিন আসবে
+        // হ্যাকার লোডিং টেক্সট চেঞ্জিং ইফেক্ট
+        const phrases = ["INJECTING EXPLOIT...", "BYPASSING SECURITY...", "LOADING FF JOD 2X..."];
+        let count = 0;
+        let textInterval = setInterval(() => {
+            if(count < phrases.length) {
+                loadingText.innerText = phrases[count];
+                count++;
+            }
+        }, 1200);
+
+        // ৩.৬ সেকেন্ড পর লোডার বন্ধ হয়ে প্যানেল ওপেন হবে
         setTimeout(() => {
+            clearInterval(textInterval);
             loaderContainer.style.opacity = '0';
             setTimeout(() => {
                 loaderContainer.style.display = 'none';
@@ -234,12 +268,12 @@
                 alert("দয়া করে আগে আপনার নাম লিখুন বস!");
             } else {
                 bgMusic.play().catch(e => console.log("Audio play blocked"));
-                statusText.innerText = "Welcome, " + savedName + "! Initializing...";
+                statusText.innerText = "Welcome, " + savedName + " ! Overriding Matrix...";
                 statusText.style.color = "#00ffcc"; 
                 
-                button.innerText = "LOADING SECURE GATEWAY...";
-                button.style.background = "#333";
-                button.style.color = "#777";
+                button.innerText = "OPENING SECURE GATEWAY...";
+                button.style.background = "#222";
+                button.style.color = "#555";
                 button.disabled = true; 
 
                 progressBarContainer.style.display = "block";
@@ -269,7 +303,7 @@
             const pass = panelPassword.value.trim();
             
             if(pass === "JOD2X") {
-                loginStatus.innerText = "ACCESS GRANTED! GENERATING...";
+                loginStatus.innerText = "ACCESS GRANTED! DECRYPTING KEY...";
                 loginStatus.style.color = "#00ffcc";
                 loginBtn.disabled = true;
                 
@@ -286,8 +320,8 @@
                     
                     input.value = finalKey; 
                     
-                    button.style.display = "none"; // স্টার্ট বাটন হাইড হবে
-                    copyBtn.style.display = "block"; // কপি বাটন শো করবে
+                    button.style.display = "none";
+                    copyBtn.style.display = "block"; 
                 }, 1500);
 
             } else {
@@ -297,12 +331,12 @@
             }
         });
 
-        // কী কপি করার লজিক
+        // কপি বাটন লজিক
         copyBtn.addEventListener('click', function() {
             input.select();
             input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
-            alert("বস! কীটি সফলভাবে কপি করা হয়েছে: " + input.value);
+            alert("বস! কীটি কপি করা হয়েছে: " + input.value);
         });
     </script>
 
