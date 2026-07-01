@@ -75,12 +75,12 @@
             text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
         }
 
-        /* 📊 শুরুতে আসা লোডিং প্রোগ্রেস বার (দাগ) */
+        /* 📊 শুরুতে আসা লোডিং প্রোগ্রেস বার (একদম চারকোনা দাগ) */
         .start-progress-container {
             width: 180px;
-            height: 6px;
+            height: 8px;
             background-color: #1b1b3a;
-            border-radius: 10px;
+            border-radius: 0px; /* চারকোনা করা হয়েছে */
             margin-top: 15px;
             border: 1px solid #333;
             overflow: hidden;
@@ -91,7 +91,7 @@
             height: 100%;
             background-color: #00ffcc;
             box-shadow: 0 0 10px #00ffcc;
-            border-radius: 10px;
+            border-radius: 0px; /* চারকোনা করা হয়েছে */
         }
 
         /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
@@ -173,10 +173,11 @@
         .btn-pink { background: #ff007f; color: white; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
         .btn-copy { background: #ffcc00; color: black; box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); display: none; }
 
+        /* প্যানেলের ভেতরের প্রোগ্রেস বারও চারকোনা করা হয়েছে */
         .progress-container {
             width: 100%;
             background-color: #1b1b3a;
-            border-radius: 10px;
+            border-radius: 0px;
             margin: 20px auto 0 auto;
             display: none;
             border: 1px solid #333;
@@ -185,7 +186,7 @@
             width: 0%;
             height: 10px;
             background-color: #ff007f;
-            border-radius: 10px;
+            border-radius: 0px;
             box-shadow: 0 0 10px #ff007f;
             transition: width 0.1s linear;
         }
@@ -193,6 +194,7 @@
 </head>
 <body>
 
+    <!-- ১ম স্ক্রিন: ডট-ডট লোডার এবং চারকোনা দাগ -->
     <div id="loader-container">
         <div class="dot-spinner">
             <div></div><div></div><div></div><div></div>
@@ -200,11 +202,13 @@
         </div>
         <div class="loader-text" id="startProgressText">LOADING... 0%</div>
         
+        <!-- চারকোনা প্রোগ্রেস বার -->
         <div class="start-progress-container">
             <div class="start-progress-bar" id="startBar"></div>
         </div>
     </div>
 
+    <!-- মেইন প্যানেল বক্স -->
     <div class="panel-box" id="mainPanel">
         <h2 class="cyan-text">FF JOD 2X</h2>
         <p id="statusText" style="color: #aaa;">Status: Secure Connection Established</p>
@@ -218,6 +222,7 @@
         </div>
     </div>
 
+    <!-- পাসওয়ার্ড ভেরিফিকেশন বক্স -->
     <div id="login-box">
         <h2 class="pink-text">SECURITY LOCK</h2>
         <p id="loginStatus" style="color: #aaa;">Enter Password To Decrypt Key</p>
@@ -256,7 +261,6 @@
             if (initialWidth >= 100) {
                 clearInterval(startLoaderInterval);
                 
-                // ১০০% হওয়ার পর মেইন প্যানেল চলে আসবে
                 loaderContainer.style.opacity = '0';
                 setTimeout(() => {
                     loaderContainer.style.display = 'none';
@@ -267,7 +271,7 @@
                 startBar.style.width = initialWidth + '%';
                 startProgressText.innerText = "LOADING... " + initialWidth + "%";
             }
-        }, 35); // ৩.৫ সেকেন্ড ফিক্সড টাইমিং এর জন্য স্পীড সেট করা
+        }, 35);
 
         // বাটন ও ইনজেকশন লজিক
         button.addEventListener('click', function() {
