@@ -19,7 +19,7 @@
             box-sizing: border-box;
         }
 
-        /* 🌀 ১ম স্ক্রিন: আপনার পছন্দের ডট-ডট গোল ঘোরানো অরিজিনাল লোডার */
+        /* 🌀 ১ম স্ক্রিন: ডট-ডট ঘোরানো অরিজিনাল লোডার */
         #loader-container {
             position: fixed;
             top: 0;
@@ -75,7 +75,26 @@
             text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
         }
 
-        /* 📱 ২য় স্ক্রিন: মেইন বক্স */
+        /* 📊 শুরুতে আসা লোডিং প্রোগ্রেস বার (দাগ) */
+        .start-progress-container {
+            width: 180px;
+            height: 6px;
+            background-color: #1b1b3a;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        
+        .start-progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #00ffcc;
+            box-shadow: 0 0 10px #00ffcc;
+            border-radius: 10px;
+        }
+
+        /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
         .panel-box {
             background: #121224;
             padding: 35px 25px;
@@ -89,7 +108,7 @@
             display: none;
         }
 
-        /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড বক্স */
+        /* 🔐 ③য় স্ক্রিন: পাসওয়ার্ড বক্স */
         #login-box {
             background: #121224;
             padding: 35px 25px;
@@ -179,7 +198,11 @@
             <div></div><div></div><div></div><div></div>
             <div></div><div></div><div></div><div></div>
         </div>
-        <div class="loader-text">LOADING...</div>
+        <div class="loader-text" id="startProgressText">LOADING... 0%</div>
+        
+        <div class="start-progress-container">
+            <div class="start-progress-bar" id="startBar"></div>
+        </div>
     </div>
 
     <div class="panel-box" id="mainPanel">
@@ -208,6 +231,9 @@
         const mainPanel = document.getElementById('mainPanel');
         const loginBox = document.getElementById('login-box');
         
+        const startBar = document.getElementById('startBar');
+        const startProgressText = document.getElementById('startProgressText');
+
         const button = document.getElementById('startBtn');
         const copyBtn = document.getElementById('copyBtn');
         const input = document.getElementById('userName');
@@ -224,15 +250,26 @@
         const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3');
         bgMusic.loop = true;
 
-        // লোডিং স্ক্রিন ৩.৫ সেকেন্ড ফিক্সড থাকবে, তারপর প্যানেল আসবে
-        setTimeout(() => {
-            loaderContainer.style.opacity = '0';
-            setTimeout(() => {
-                loaderContainer.style.display = 'none';
-                mainPanel.style.display = 'block';
-            }, 500);
-        }, 3500);
+        // ⏱️ শুরুতে লোডিং দাগটি ০% থেকে ১০০% করার লজিক
+        let initialWidth = 0;
+        let startLoaderInterval = setInterval(() => {
+            if (initialWidth >= 100) {
+                clearInterval(startLoaderInterval);
+                
+                // ১০০% হওয়ার পর মেইন প্যানেল চলে আসবে
+                loaderContainer.style.opacity = '0';
+                setTimeout(() => {
+                    loaderContainer.style.display = 'none';
+                    mainPanel.style.display = 'block';
+                }, 500);
+            } else {
+                initialWidth++;
+                startBar.style.width = initialWidth + '%';
+                startProgressText.innerText = "LOADING... " + initialWidth + "%";
+            }
+        }, 35); // ৩.৫ সেকেন্ড ফিক্সড টাইমিং এর জন্য স্পীড সেট করা
 
+        // বাটন ও ইনজেকশন লজিক
         button.addEventListener('click', function() {
             savedName = input.value.trim(); 
             
