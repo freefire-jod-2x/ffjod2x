@@ -19,7 +19,7 @@
             box-sizing: border-box;
         }
 
-        /* 🌀 ১ম স্ক্রিন: গোল স্পিনার লোডার */
+        /* 🌀 ১ম স্ক্রিন: আপনার পছন্দের ডট-ডট গোল ঘোরানো অরিজিনাল লোডার */
         #loader-container {
             position: fixed;
             top: 0;
@@ -35,18 +35,39 @@
             transition: opacity 0.5s ease;
         }
         
-        .circle-loader {
+        /* ডট স্পিনারের সুন্দর অ্যানিমেশন */
+        .dot-spinner {
+            position: relative;
             width: 60px;
             height: 60px;
-            border: 5px solid rgba(0, 255, 204, 0.1);
-            border-left-color: #00ffcc;
+        }
+
+        .dot-spinner div {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #00ffcc;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+            box-shadow: 0 0 10px #00ffcc;
+            animation: dotFade 1.2s linear infinite;
+        }
+
+        .dot-spinner div:nth-child(1) { top: 6px; left: 27px; animation-delay: 0s; }
+        .dot-spinner div:nth-child(2) { top: 12px; left: 42px; animation-delay: -0.15s; }
+        .dot-spinner div:nth-child(3) { top: 27px; left: 48px; animation-delay: -0.3s; }
+        .dot-spinner div:nth-child(4) { top: 42px; left: 42px; animation-delay: -0.45s; }
+        .dot-spinner div:nth-child(5) { top: 48px; left: 27px; animation-delay: -0.6s; }
+        .dot-spinner div:nth-child(6) { top: 42px; left: 12px; animation-delay: -0.75s; }
+        .dot-spinner div:nth-child(7) { top: 27px; left: 6px; animation-delay: -0.9s; }
+        .dot-spinner div:nth-child(8) { top: 12px; left: 12px; animation-delay: -1.05s; }
+
+        @keyframes dotFade {
+            0%, 100% { opacity: 1; transform: scale(1.2); }
+            50% { opacity: 0.25; transform: scale(0.8); }
         }
 
         .loader-text {
-            margin-top: 20px;
+            margin-top: 25px;
             color: #00ffcc;
             font-size: 16px;
             letter-spacing: 2px;
@@ -54,7 +75,7 @@
             text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
         }
 
-        /* 📱 ২য় স্ক্রিন: নাম দেওয়ার মেইন বক্স */
+        /* 📱 ২য় স্ক্রিন: মেইন বক্স */
         .panel-box {
             background: #121224;
             padding: 35px 25px;
@@ -68,7 +89,7 @@
             display: none;
         }
 
-        /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড ভেরিফিকেশন বক্স */
+        /* 🔐 ৩য় স্ক্রিন: পাসওয়ার্ড বক্স */
         #login-box {
             background: #121224;
             padding: 35px 25px;
@@ -149,17 +170,15 @@
             box-shadow: 0 0 10px #ff007f;
             transition: width 0.1s linear;
         }
-
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
     </style>
 </head>
 <body>
 
     <div id="loader-container">
-        <div class="circle-loader"></div>
+        <div class="dot-spinner">
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+        </div>
         <div class="loader-text">LOADING...</div>
     </div>
 
@@ -184,7 +203,7 @@
         <button id="loginBtn" class="btn-pink">VERIFY & GENERATE</button>
     </div>
 
-    <script {nonce}>
+    <script>
         const loaderContainer = document.getElementById('loader-container');
         const mainPanel = document.getElementById('mainPanel');
         const loginBox = document.getElementById('login-box');
@@ -284,7 +303,6 @@
             }
         });
 
-        // কপি বাটন লজিক
         copyBtn.addEventListener('click', function() {
             input.select();
             input.setSelectionRange(0, 99999);
